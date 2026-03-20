@@ -8,6 +8,13 @@ dependencies {
     testImplementation(libs.junit.jupiter)
 }
 
+tasks.compileKotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xwarning-level=NOTHING_TO_INLINE:disabled")
+        freeCompilerArgs.add("-XXLanguage:+ExplicitBackingFields")
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
