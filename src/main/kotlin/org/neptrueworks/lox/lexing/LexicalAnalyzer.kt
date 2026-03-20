@@ -98,6 +98,7 @@ public final class LexicalAnalyzer(
             FallThrough.literal -> FallThrough;
             Return.literal      -> Return;
 
+            Var.literal         -> Var;
             Func.literal        -> Func;
             Class.literal       -> Class;
             This.literal        -> This;
