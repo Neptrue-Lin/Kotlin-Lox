@@ -8,10 +8,12 @@ import org.neptrueworks.lox.lexing.LexicalPattern.*
 public final class LexicalAnalyzer(
     private val scanner: LexicalScanner,
 ) {
-    private val tokens: MutableList<LexicalToken<*>> = mutableListOf();
-    private val errors: MutableList<LexicalAnalysisResult> = mutableListOf();
+    public val tokens: List<LexicalToken<*>> 
+        field = mutableListOf();
+    public val errors: List<LexicalAnalysisResult>
+        field = mutableListOf();
 
-    public override fun toString() = this.tokens.toString() + this.errors.toString();
+    public final override fun toString() = this.tokens.toString() + this.errors.toString();
 
     public fun analyze() {
         while (this.scanner.hasNext()) {
