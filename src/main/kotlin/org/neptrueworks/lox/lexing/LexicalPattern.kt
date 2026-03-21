@@ -26,10 +26,10 @@ public sealed class LexicalPattern<T> {
     // Delimiter
     public data object LeftParen    : LexicalPattern<Delimiter>() { override val literal = "(" }
     public data object RightParen   : LexicalPattern<Delimiter>() { override val literal = ")" }
-    public data object LeftBracket  : LexicalPattern<Delimiter>() { override val literal = "[" }
-    public data object RightBracket : LexicalPattern<Delimiter>() { override val literal = "]" }
-    public data object LeftBrace    : LexicalPattern<Delimiter>() { override val literal = "{" }
-    public data object RightBrace   : LexicalPattern<Delimiter>() { override val literal = "}" }
+    public data object LeftSquare   : LexicalPattern<Delimiter>() { override val literal = "[" }
+    public data object RightSquare  : LexicalPattern<Delimiter>() { override val literal = "]" }
+    public data object LeftCurl     : LexicalPattern<Delimiter>() { override val literal = "{" }
+    public data object RightCurl    : LexicalPattern<Delimiter>() { override val literal = "}" }
     
     // Punctuator
     public data object Comma      : LexicalPattern<Punctuator>() { override val literal = "," }

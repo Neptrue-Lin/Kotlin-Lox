@@ -62,15 +62,15 @@ public final class LexicalScanner(
         }
 
         return if (this.lookAhead().isSlash()) {
-            this.matchSingleLineComment()
+            this.matchLineComment()
         } else if (this.lookAhead().isAsterisk()) {
-            this.matchMultilineComment()
+            this.matchDelimitedComment()
         } else {
             false
         }
     }
 
-    private fun matchSingleLineComment(): Boolean {
+    private fun matchLineComment(): Boolean {
         this.startLexeme();
         do {
             this.nextColumn();
@@ -78,7 +78,7 @@ public final class LexicalScanner(
         return true;
     }
 
-    private fun matchMultilineComment(): Boolean {
+    private fun matchDelimitedComment(): Boolean {
         this.startLexeme();
         do {
             this.nextColumn();

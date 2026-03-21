@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 public final class CommentScanningTest {
     @Test
-    public fun testSeparatedSlashes_ShouldNotMatchComment() {
+    public fun testSeparatedSlashes_ShouldNotMatchLineComment() {
         val comment = "/ /";
         val scanner = LexicalScanner(comment);
         
@@ -16,8 +16,8 @@ public final class CommentScanningTest {
     }
 
     @Test
-    public fun testSingleLineComment_ShouldIgnoreAllChars() {
-        val comment = "// Single-line Comment";
+    public fun testLineComment_ShouldIgnoreAllChars() {
+        val comment = "// Line Comment";
         val scanner = LexicalScanner(comment);
         
         scanner.scanNext();
@@ -27,8 +27,8 @@ public final class CommentScanningTest {
     }
 
     @Test
-    public fun testSingleLineComment_ShouldIgnoreOneLine() {
-        val comment = "// Single-line \n// Comment";
+    public fun testLineComments_ShouldIgnoreEachLine() {
+        val comment = "// Line \n// Comment";
         val scanner = LexicalScanner(comment);
         
         scanner.scanNext();
@@ -41,7 +41,7 @@ public final class CommentScanningTest {
     }
 
     @Test
-    public fun testSingleLineComment_InMultilineComment_ShouldNotSplitApart() {
+    public fun testLineComment_InDelimitedComment_ShouldNotSplitApart() {
         val comment = "/*//*/";
         val scanner = LexicalScanner(comment);
 
@@ -52,7 +52,7 @@ public final class CommentScanningTest {
     }
 
     @Test
-    public fun testMultilineComment_InSingleComment_ShouldIgnoreMultilineComment() {
+    public fun testDelimitedComment_InLineComment_ShouldIgnoreDelimitedComment() {
         val comment = "// /**/";
         val scanner = LexicalScanner(comment);
 
@@ -63,7 +63,7 @@ public final class CommentScanningTest {
     }
     
     @Test
-    public fun testSingleLineComment_InMultilineComments_ShouldIgnoreSingleLineComment() {
+    public fun testLineComment_InDelimitedComments_ShouldIgnoreLineComment() {
         val comment = "/*\n//\n*/";
         val scanner = LexicalScanner(comment);
 
