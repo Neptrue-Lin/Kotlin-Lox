@@ -27,6 +27,7 @@ public final class LexicalAnalyzer(
             val result = this.tokenize(char);
             this.analyzeToken(result, this.scanner.line);
         }
+        this.tokens += LexicalToken(Terminated, this.scanner.line);
     }
 
     private fun tokenize(char: Char): LexicalAnalysisResult = when (char) {
@@ -78,7 +79,6 @@ public final class LexicalAnalyzer(
         return when (lexeme) {
             True.literal        -> True;
             False.literal       -> False;
-            Nil.literal         -> Nil;
 
             And.literal         -> And;
             Or.literal          -> Or;
@@ -99,6 +99,7 @@ public final class LexicalAnalyzer(
             Continue.literal    -> Continue;
             FallThrough.literal -> FallThrough;
             Return.literal      -> Return;
+            To.literal          -> To;
 
             Var.literal         -> Var;
             Func.literal        -> Func;

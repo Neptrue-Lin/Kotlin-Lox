@@ -17,7 +17,6 @@ public sealed class LexicalPattern<T> {
     // Literal keyword
     public data object True  : LexicalPattern<Keyword>() { override val literal = "true" }
     public data object False : LexicalPattern<Keyword>() { override val literal = "false" }
-    public data object Nil   : LexicalPattern<Keyword>() { override val literal = "nil" }
     
     // Literal
     public data class Text(override val literal: Txt) : LexicalPattern<Txt>()
@@ -79,6 +78,7 @@ public sealed class LexicalPattern<T> {
     public data object Continue    : LexicalPattern<Keyword>() { override val literal = "continue" }
     public data object FallThrough : LexicalPattern<Keyword>() { override val literal = "fallthrough" }
     public data object Return      : LexicalPattern<Keyword>() { override val literal = "return" }
+    public data object To          : LexicalPattern<Keyword>() { override val literal = "to" }
     
     // Declaration
     public data object Var   : LexicalPattern<Keyword>() { override val literal = "var" }
@@ -86,4 +86,6 @@ public sealed class LexicalPattern<T> {
     public data object Class : LexicalPattern<Keyword>() { override val literal = "class" }
     public data object This  : LexicalPattern<Keyword>() { override val literal = "this" }
     public data object Base  : LexicalPattern<Keyword>() { override val literal = "base" }
+    
+    public data object Terminated : LexicalPattern<Char>() { override val literal = '\u0000' }
 }
