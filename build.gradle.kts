@@ -8,6 +8,12 @@ dependencies {
     testImplementation(libs.junit.jupiter)
 }
 
+tasks.compileTestKotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xskip-prerelease-check");
+    }
+}
+
 tasks.compileKotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xwarning-level=NOTHING_TO_INLINE:disabled")
