@@ -1,91 +1,86 @@
 package org.neptrueworks.lox.lexing
 
-public sealed class LexicalPattern<T> {
-    public abstract val literal: T
-    
+public sealed class LexicalPattern {
     public typealias Id = String;
-    public typealias Keyword = Id;
     public typealias Txt = String;
     public typealias Num = Double;
-    public typealias Delimiter = String;
-    public typealias Punctuator = String;
-    public typealias Operator = String;
     
-
-    public data class Identifier(override val literal: Id) : LexicalPattern<Id>()
+    public data class Identifier(val id: Id) : LexicalPattern()
     
     // Literal keyword
-    public data object True  : LexicalPattern<Keyword>() { override val literal = "true" }
-    public data object False : LexicalPattern<Keyword>() { override val literal = "false" }
+    public data object True  : LexicalPattern() { const val Lexeme = "true"; const val Literal = true }
+    public data object False : LexicalPattern() { const val Lexeme = "false"; const val Literal = false }
     
     // Literal
-    public data class Text(override val literal: Txt) : LexicalPattern<Txt>()
-    public data class Numeric(override val literal: Num) : LexicalPattern<Num>()
+    public data class Text(val literal: Txt) : LexicalPattern()
+    public data class Numeric(val literal: Num) : LexicalPattern()
     
     // Delimiter
-    public data object LeftParen    : LexicalPattern<Delimiter>() { override val literal = "(" }
-    public data object RightParen   : LexicalPattern<Delimiter>() { override val literal = ")" }
-    public data object LeftSquare   : LexicalPattern<Delimiter>() { override val literal = "[" }
-    public data object RightSquare  : LexicalPattern<Delimiter>() { override val literal = "]" }
-    public data object LeftCurl     : LexicalPattern<Delimiter>() { override val literal = "{" }
-    public data object RightCurl    : LexicalPattern<Delimiter>() { override val literal = "}" }
+    public data object LeftParen   : LexicalPattern() { const val Lexeme = "(" }
+    public data object RightParen  : LexicalPattern() { const val Lexeme = ")" }
+    public data object LeftSquare  : LexicalPattern() { const val Lexeme = "[" }
+    public data object RightSquare : LexicalPattern() { const val Lexeme = "]" }
+    public data object LeftCurl    : LexicalPattern() { const val Lexeme = "{" }
+    public data object RightCurl   : LexicalPattern() { const val Lexeme = "}" }
     
     // Punctuator
-    public data object Comma      : LexicalPattern<Punctuator>() { override val literal = "," }
-    public data object Dot        : LexicalPattern<Punctuator>() { override val literal = "." }
-    public data object Colon      : LexicalPattern<Punctuator>() { override val literal = ":" }
-    public data object Semicolon  : LexicalPattern<Punctuator>() { override val literal = ";" }
-    public data object Underscore : LexicalPattern<Punctuator>() { override val literal = "_" }
+    public data object Comma      : LexicalPattern() { const val Lexeme = "," }
+    public data object Dot        : LexicalPattern() { const val Lexeme = "." }
+    public data object Colon      : LexicalPattern() { const val Lexeme = ":" }
+    public data object Semicolon  : LexicalPattern() { const val Lexeme = ";" }
+    public data object Underscore : LexicalPattern() { const val Lexeme = "_" }
     
     // Arithmetic Operator
-    public data object Minus    : LexicalPattern<Operator>() { override val literal = "-" }
-    public data object Plus     : LexicalPattern<Operator>() { override val literal = "+" }
-    public data object Asterisk : LexicalPattern<Operator>() { override val literal = "*" }
-    public data object Slash    : LexicalPattern<Operator>() { override val literal = "/" }
-    public data object Percent  : LexicalPattern<Operator>() { override val literal = "%" }
+    public data object Minus    : LexicalPattern() { const val Lexeme = "-" }
+    public data object Plus     : LexicalPattern() { const val Lexeme = "+" }
+    public data object Asterisk : LexicalPattern() { const val Lexeme = "*" }
+    public data object Slash    : LexicalPattern() { const val Lexeme = "/" }
+    public data object Percent  : LexicalPattern() { const val Lexeme = "%" }
+    
+    // Equality Operator
+    public data object EqualEqual   : LexicalPattern() { const val Lexeme = "==" }
+    public data object BangEqual    : LexicalPattern() { const val Lexeme = "!=" }
     
     // Comparison Operator
-    public data object Equal        : LexicalPattern<Operator>() { override val literal = "=" }
-    public data object Less         : LexicalPattern<Operator>() { override val literal = "<" }
-    public data object Greater      : LexicalPattern<Operator>() { override val literal = ">" }
-    public data object EqualEqual   : LexicalPattern<Operator>() { override val literal = "==" }
-    public data object BangEqual    : LexicalPattern<Operator>() { override val literal = "!=" }
-    public data object LessEqual    : LexicalPattern<Operator>() { override val literal = "<=" }
-    public data object GreaterEqual : LexicalPattern<Operator>() { override val literal = ">=" }
+    public data object Equal        : LexicalPattern() { const val Lexeme = "=" }
+    public data object Less         : LexicalPattern() { const val Lexeme = "<" }
+    public data object Greater      : LexicalPattern() { const val Lexeme = ">"}
+    public data object LessEqual    : LexicalPattern() { const val Lexeme = "<=" }
+    public data object GreaterEqual : LexicalPattern() { const val Lexeme = ">=" }
     
     // Logical Keyword 
-    public data object And : LexicalPattern<Keyword>() { override val literal = "and" }
-    public data object Or  : LexicalPattern<Keyword>() { override val literal = "or" }
-    public data object Not : LexicalPattern<Keyword>() { override val literal = "not" }
-    public data object Is  : LexicalPattern<Keyword>() { override val literal = "is" }
+    public data object And : LexicalPattern() { const val Lexeme = "and" }
+    public data object Or  : LexicalPattern() { const val Lexeme = "or" }
+    public data object Not : LexicalPattern() { const val Lexeme = "not" }
+    public data object Is  : LexicalPattern() { const val Lexeme = "is" }
     
     // If 
-    public data object If   : LexicalPattern<Keyword>() { override val literal = "if" }
-    public data object Else : LexicalPattern<Keyword>() { override val literal = "else" }
+    public data object If   : LexicalPattern() { const val Lexeme = "if" }
+    public data object Else : LexicalPattern() { const val Lexeme = "else" }
     
     // Switch
-    public data object Switch : LexicalPattern<Keyword>() { override val literal = "switch" }
-    public data object Case   : LexicalPattern<Keyword>() { override val literal = "case" }
+    public data object Switch : LexicalPattern() { const val Lexeme = "switch" }
+    public data object Case   : LexicalPattern() { const val Lexeme = "case" }
     
     // Loop
-    public data object Loop  : LexicalPattern<Keyword>() { override val literal = "loop" }
-    public data object For   : LexicalPattern<Keyword>() { override val literal = "for" }
-    public data object While : LexicalPattern<Keyword>() { override val literal = "while" }
-    public data object Until : LexicalPattern<Keyword>() { override val literal = "until" }
+    public data object Loop  : LexicalPattern() { const val Lexeme = "loop" }
+    public data object For   : LexicalPattern() { const val Lexeme = "for" }
+    public data object While : LexicalPattern() { const val Lexeme = "while" }
+    public data object Until : LexicalPattern() { const val Lexeme = "until" }
    
     // Jump
-    public data object Break       : LexicalPattern<Keyword>() { override val literal = "break" }
-    public data object Continue    : LexicalPattern<Keyword>() { override val literal = "continue" }
-    public data object FallThrough : LexicalPattern<Keyword>() { override val literal = "fallthrough" }
-    public data object Return      : LexicalPattern<Keyword>() { override val literal = "return" }
-    public data object To          : LexicalPattern<Keyword>() { override val literal = "to" }
+    public data object Break       : LexicalPattern() { const val Lexeme = "break" }
+    public data object Continue    : LexicalPattern() { const val Lexeme = "continue" }
+    public data object FallThrough : LexicalPattern() { const val Lexeme = "fallthrough" }
+    public data object Return      : LexicalPattern() { const val Lexeme = "return" }
+    public data object To          : LexicalPattern() { const val Lexeme = "to" }
     
     // Declaration
-    public data object Var   : LexicalPattern<Keyword>() { override val literal = "var" }
-    public data object Func  : LexicalPattern<Keyword>() { override val literal = "func" }
-    public data object Class : LexicalPattern<Keyword>() { override val literal = "class" }
-    public data object This  : LexicalPattern<Keyword>() { override val literal = "this" }
-    public data object Base  : LexicalPattern<Keyword>() { override val literal = "base" }
+    public data object Var   : LexicalPattern() { const val Lexeme = "var" }
+    public data object Func  : LexicalPattern() { const val Lexeme = "func" }
+    public data object Class : LexicalPattern() { const val Lexeme = "class" }
+    public data object This  : LexicalPattern() { const val Lexeme = "this" }
+    public data object Base  : LexicalPattern() { const val Lexeme = "base" }
     
-    public data object Terminated : LexicalPattern<Char>() { override val literal = '\u0000' }
+    public data object Terminated : LexicalPattern()
 }

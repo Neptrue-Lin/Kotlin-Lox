@@ -8,5 +8,5 @@ public sealed class LexicalAnalysisResult : Result() {
     public data class UnexpectedBang(val line: LineNumber) : LexicalAnalysisResult(), Error 
     public data class UnterminatedString(val line: LineNumber) : LexicalAnalysisResult(), Error
     public data class MultipleDecimalSeparator(val line: LineNumber) : LexicalAnalysisResult(), Error
-    public data class Tokenized<T>(val pattern: LexicalPattern<T>) : LexicalAnalysisResult(), Success
+    public data class Tokenized(val pattern: LexicalPattern) : LexicalAnalysisResult(), Success
 }

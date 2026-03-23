@@ -8,7 +8,7 @@ import org.neptrueworks.lox.lexing.LexicalPattern.*
 public final class LexicalAnalyzer(
     private val scanner: LexicalScanner,
 ) {
-    public val tokens: List<LexicalToken<*>> 
+    public val tokens: List<LexicalToken> 
         field = mutableListOf();
     public val errors: List<LexicalAnalysisResult>
         field = mutableListOf();
@@ -28,6 +28,14 @@ public final class LexicalAnalyzer(
             this.analyzeToken(result, this.scanner.line);
         }
         this.tokens += LexicalToken(Terminated, this.scanner.line);
+    }
+
+    private fun analyzeToken(result: LexicalAnalysisResult, line: LineNumber) {
+        if (result is Tokenized) {
+            this.tokens += LexicalToken(result.pattern, line);
+        } else {
+            this.errors += result;
+        }
     }
 
     private fun tokenize(char: Char): LexicalAnalysisResult = when (char) {
@@ -56,14 +64,6 @@ public final class LexicalAnalyzer(
         else -> UnknownCharacter(char, this.scanner.line)
     }
 
-    private fun analyzeToken(result: LexicalAnalysisResult, line: LineNumber) {
-        if (result is Tokenized<*>) {
-            this.tokens += LexicalToken(result.pattern, line);
-        } else {
-            this.errors += result;
-        }
-    }
-
     private final fun tokenizeText(): Text {
         val literal = this.scanner.getTextLexeme().toEscaped();
         return Text(literal);
@@ -74,39 +74,38 @@ public final class LexicalAnalyzer(
         return Numeric(literal);
     }
 
-    private final fun tokenizeIdentifier(): LexicalPattern<Id> {
-        val lexeme = this.scanner.getIdentifierLexeme();
-        return when (lexeme) {
-            True.literal        -> True;
-            False.literal       -> False;
+    private final fun tokenizeIdentifier(): LexicalPattern {
+        return when (val lexeme = this.scanner.getIdentifierLexeme()) {
+            True.Lexeme        -> True;
+            False.Lexeme       -> False;
 
-            And.literal         -> And;
-            Or.literal          -> Or;
-            Not.literal         -> Not;
-            Is.literal          -> Is;
+            And.Lexeme         -> And;
+            Or.Lexeme          -> Or;
+            Not.Lexeme         -> Not;
+            Is.Lexeme          -> Is;
 
-            If.literal          -> If;
-            Else.literal        -> Else;
-            Switch.literal      -> Switch;
-            Case.literal        -> Case;
+            If.Lexeme          -> If;
+            Else.Lexeme        -> Else;
+            Switch.Lexeme      -> Switch;
+            Case.Lexeme        -> Case;
 
-            Loop.literal        -> Loop;
-            For.literal         -> For;
-            While.literal       -> While;
-            Until.literal       -> Until;
+            Loop.Lexeme        -> Loop;
+            For.Lexeme         -> For;
+            While.Lexeme       -> While;
+            Until.Lexeme       -> Until;
 
-            Break.literal       -> Break;
-            Continue.literal    -> Continue;
-            FallThrough.literal -> FallThrough;
-            Return.literal      -> Return;
-            To.literal          -> To;
+            Break.Lexeme       -> Break;
+            Continue.Lexeme    -> Continue;
+            FallThrough.Lexeme -> FallThrough;
+            Return.Lexeme      -> Return;
+            To.Lexeme          -> To;
 
-            Var.literal         -> Var;
-            Func.literal        -> Func;
-            Class.literal       -> Class;
-            This.literal        -> This;
-            Base.literal        -> Base;
-            else                -> Identifier(lexeme);
+            Var.Lexeme         -> Var;
+            Func.Lexeme        -> Func;
+            Class.Lexeme       -> Class;
+            This.Lexeme        -> This;
+            Base.Lexeme        -> Base;
+            else               -> Identifier(lexeme);
         }
     }
 }
