@@ -3,7 +3,7 @@ package org.neptrueworks.lox.lexing
 internal inline fun Char.isNewLine() = this == '\n';
 internal inline fun Char.isSlash() = this == '/';
 internal inline fun Char.isEqual() = this == '=';
-internal inline fun Char.isDoubleQuote() = this == '"';
+internal inline fun Char.isQuotation() = this == '"';
 internal inline fun Char.isSemicolon() = this == ';';
 internal inline fun Char.isDot() = this == '.';
 internal inline fun Char.isUnderscore() = this == '_';
@@ -18,7 +18,7 @@ internal inline fun Char.isNotNewLine() = !this.isNewLine();
 internal inline fun Char.isNotSlash() = !this.isSlash();
 internal inline fun Char.isNotEqual() = !this.isEqual();
 internal inline fun Char.isNotWhitespace() = !this.isWhitespace();
-internal inline fun Char.isNotDoubleQuote() = !this.isDoubleQuote();
+internal inline fun Char.isNotQuotation() = !this.isQuotation();
 internal inline fun Char.isNotSemicolon() = !this.isSemicolon();
 internal inline fun Char.isNotDot() = !this.isDot();
 internal inline fun Char.isNotUnderscore() = !this.isUnderscore();

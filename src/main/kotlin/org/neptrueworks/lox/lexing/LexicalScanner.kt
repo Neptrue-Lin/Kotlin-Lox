@@ -94,7 +94,7 @@ public final class LexicalScanner(
     }
 
     internal fun matchText(): Boolean {
-        if (this.getCurrentChar().isNotDoubleQuote()) {
+        if (this.getCurrentChar().isNotQuotation()) {
             return false;
         }
 
@@ -103,7 +103,7 @@ public final class LexicalScanner(
             this.nextColumn();
             if (this.getCurrentChar().isBackslash()) {
                 this.nextColumn();
-            } else if (this.getCurrentChar().isDoubleQuote()) {
+            } else if (this.getCurrentChar().isQuotation()) {
                 return true;
             }
         }

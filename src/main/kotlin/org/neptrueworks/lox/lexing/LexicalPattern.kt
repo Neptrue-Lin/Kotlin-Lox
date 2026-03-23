@@ -36,6 +36,12 @@ public sealed class LexicalPattern {
     public data object Asterisk : LexicalPattern() { const val Lexeme = "*" }
     public data object Slash    : LexicalPattern() { const val Lexeme = "/" }
     public data object Percent  : LexicalPattern() { const val Lexeme = "%" }
+    public data object PlusEqual     : LexicalPattern() { const val Lexeme = "+=" }
+    public data object MinusEqual    : LexicalPattern() { const val Lexeme = "-=" }
+    public data object AsteriskEqual : LexicalPattern() { const val Lexeme = "*=" }
+    public data object SlashEqual    : LexicalPattern() { const val Lexeme = "/=" }
+    public data object PercentEqual  : LexicalPattern() { const val Lexeme = "%=" }
+    
     
     // Equality Operator
     public data object EqualEqual   : LexicalPattern() { const val Lexeme = "==" }
