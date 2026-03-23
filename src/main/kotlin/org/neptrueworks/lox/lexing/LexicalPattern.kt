@@ -1,9 +1,9 @@
 package org.neptrueworks.lox.lexing
 
 public sealed class LexicalPattern {
-    public typealias Id = String;
-    public typealias Txt = String;
-    public typealias Num = Double;
+    public final inline class Id(val id: String);
+    public final inline class Txt(val txt: String);
+    public final inline class Num(val num: Double);
     
     public data class Identifier(val id: Id) : LexicalPattern()
     

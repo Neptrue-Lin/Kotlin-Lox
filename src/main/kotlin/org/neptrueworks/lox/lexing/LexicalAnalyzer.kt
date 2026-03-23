@@ -66,12 +66,12 @@ public final class LexicalAnalyzer(
 
     private final fun tokenizeText(): Text {
         val literal = this.scanner.getTextLexeme().toEscaped();
-        return Text(literal);
+        return Text(Txt(literal));
     }
 
     private final fun tokenizeNumeric(): Numeric {
         val literal = this.scanner.getNumericLexeme().toDouble();
-        return Numeric(literal);
+        return Numeric(Num(literal));
     }
 
     private final fun tokenizeIdentifier(): LexicalPattern {
@@ -105,7 +105,7 @@ public final class LexicalAnalyzer(
             Class.Lexeme       -> Class;
             This.Lexeme        -> This;
             Base.Lexeme        -> Base;
-            else               -> Identifier(lexeme);
+            else               -> Identifier(Id(lexeme));
         }
     }
 }
