@@ -1,6 +1,6 @@
 package org.neptrueworks.lox.lexing
 
-public sealed class LexicalPattern {
+public sealed class LexicalPattern private constructor() {
     public final inline class Id(val id: String);
     public final inline class Txt(val txt: String);
     public final inline class Num(val num: Double);
