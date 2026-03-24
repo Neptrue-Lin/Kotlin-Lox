@@ -2,8 +2,20 @@ package org.neptrueworks.lox.lexing
 
 public sealed class LexicalPattern private constructor() {
     public final inline class Id(val id: String);
-    public final inline class Txt(val txt: String);
-    public final inline class Num(val num: Double);
+    
+    public final inline class Txt(val txt: String) : Comparable<Txt> {
+        public final override fun compareTo(other: Txt) = this.txt.compareTo(other.txt);
+        public final inline operator fun plus(other: Txt) = Txt(this.txt + other.txt);
+    }
+    
+    public final inline class Num(val num: Double) : Comparable<Num> {
+        public final override fun compareTo(other: Num) = this.num.compareTo(other.num);
+        public final operator fun plus(other: Num) = Num(this.num + other.num);
+        public final operator fun minus(other: Num) = Num(this.num - other.num);
+        public final operator fun times(other: Num) = Num(this.num * other.num);
+        public final operator fun div(other: Num) = Num(this.num / other.num);
+        public final operator fun rem(other: Num) = Num(this.num % other.num);
+    }
     
     public data class Identifier(val id: Id) : LexicalPattern()
     
