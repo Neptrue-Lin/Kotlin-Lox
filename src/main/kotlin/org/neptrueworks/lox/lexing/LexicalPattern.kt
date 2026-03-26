@@ -48,6 +48,9 @@ public sealed class LexicalPattern private constructor() {
     public data object Asterisk : LexicalPattern() { const val Lexeme = "*" }
     public data object Slash    : LexicalPattern() { const val Lexeme = "/" }
     public data object Percent  : LexicalPattern() { const val Lexeme = "%" }
+    
+    // Assignment operator
+    public data object Equal         : LexicalPattern() { const val Lexeme = "=" }
     public data object PlusEqual     : LexicalPattern() { const val Lexeme = "+=" }
     public data object MinusEqual    : LexicalPattern() { const val Lexeme = "-=" }
     public data object AsteriskEqual : LexicalPattern() { const val Lexeme = "*=" }
@@ -60,7 +63,6 @@ public sealed class LexicalPattern private constructor() {
     public data object BangEqual    : LexicalPattern() { const val Lexeme = "!=" }
     
     // Comparison Operator
-    public data object Equal        : LexicalPattern() { const val Lexeme = "=" }
     public data object Less         : LexicalPattern() { const val Lexeme = "<" }
     public data object Greater      : LexicalPattern() { const val Lexeme = ">"}
     public data object LessEqual    : LexicalPattern() { const val Lexeme = "<=" }
