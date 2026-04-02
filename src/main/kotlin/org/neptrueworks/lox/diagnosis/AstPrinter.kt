@@ -20,6 +20,14 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         return stmt.accept(this);
     }
 
+    public final override fun visitExpr(stmt: SyntaxStatement.Expr): String {
+        return "${stmt.expr.accept(this)};\n";
+    }
+
+    public final override fun visitVarDecl(stmt: SyntaxStatement.VarDecl): String {
+        return "( var ${stmt.name.id} );\n";
+    }
+
     public final override fun visitBinary(expr: Binary): String {
         return "( ${expr.operator.pattern} ${expr.left.accept(this)} ${expr.right.accept(this)} )"
     }
@@ -67,13 +75,11 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         builder.append("{\n");
         for (stmt in expr.stmts) {
             builder.append(stmt.accept(this));
-            builder.append("\n");
         }
         if (expr.yield is SyntaxYield.Yielded) {
             builder.append(expr.yield.expr.accept(this));
-            builder.append("\n");
         }
-        builder.append("}");
+        builder.append("\n}");
         return builder.toString();
     }
 
@@ -93,7 +99,7 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
             builder.append(" => ");
             builder.append(case.then.accept(this));
         }
-        builder.append("\n}\n");
+        builder.append("\n}");
         return builder.toString();
     }
 
@@ -133,7 +139,7 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
             is LoopClause.For -> TODO()
             is LoopClause.While -> {
                 builder.append("while (");
-                builder.append(expr.clause.condition);
+                builder.append(expr.clause.condition.accept(this));
                 builder.append(") ");
             }
             is LoopClause.None -> {}
@@ -143,7 +149,6 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
             builder.append(" else ");
             builder.append(expr.`else`.then.accept(this));
         }
-        builder.append("\n");
         return builder.toString();
     }
 
@@ -156,7 +161,7 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         }
         if (expr.to is SyntaxLabel.Labeled) {
             builder.append("to ");
-            builder.append(expr.to.label);
+            builder.append(expr.to.label.id);
             builder.append(" ");
         }
         return builder.toString();
@@ -167,7 +172,7 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         builder.append("continue ");
         if (expr.to is SyntaxLabel.Labeled) {
             builder.append("to ");
-            builder.append(expr.to.label);
+            builder.append(expr.to.label.id);
             builder.append(" ");
         }
         return builder.toString();
@@ -186,18 +191,10 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         }
         if (expr.to is SyntaxLabel.Labeled) {
             builder.append("to ");
-            builder.append(expr.to.label);
+            builder.append(expr.to.label.id);
             builder.append(" ");
         }
         return builder.toString();
-    }
-
-    public final override fun visitExpr(stmt: SyntaxStatement.Expr): String {
-        return stmt.expr.accept(this)
-    }
-
-    public final override fun visitVarDecl(stmt: SyntaxStatement.VarDecl): String {
-        return "( var ${stmt.name.id} );";
     }
 
     override fun visitFuncCall(expr: FuncCall): String {
