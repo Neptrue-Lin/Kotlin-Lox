@@ -161,13 +161,25 @@ public final class SyntaxParser(
         val name = this.getCurrentToken().pattern as LexicalPattern.Identifier;
         this.nextToken();
 
+        val type = if (this.getCurrentToken().isNotColon()) {
+            TypeAnnotation.None
+        } else {
+            this.nextToken();
+            if (this.getCurrentToken().isNotIdentifier()) {
+                throw Exception("Missing type annotation")
+            }
+            val typeName = Expr.Identifier(this.getCurrentToken().pattern as LexicalPattern.Identifier);
+            this.nextToken();
+            TypeAnnotation.Annotated(typeName);
+        }
+
         if (this.getCurrentToken().isNotEqual()) {
             throw Exception("Missing assignment operator")
         }
         this.nextToken();
         val value = this.parseSimpleExpr();
 
-        Expr.VarDef(name, value);
+        Expr.VarDef(name, type, value);
     }
 
     private fun parseGuardClause(): GuardClause {
@@ -402,6 +414,18 @@ public final class SyntaxParser(
         }
         val name = this.getCurrentToken().pattern as LexicalPattern.Identifier;
         this.nextToken();
+        
+        val type = if (this.getCurrentToken().isNotColon()) {
+            TypeAnnotation.None
+        } else {
+            this.nextToken();
+            if (this.getCurrentToken().isNotIdentifier()) {
+                throw Exception("Missing type annotation")
+            }
+            val typeName = Expr.Identifier(this.getCurrentToken().pattern as LexicalPattern.Identifier);
+            this.nextToken();
+            TypeAnnotation.Annotated(typeName);
+        }
 
         if (this.getCurrentToken().isNotEqual()) {
             throw Exception("Missing assignment operator")
@@ -409,7 +433,7 @@ public final class SyntaxParser(
         this.nextToken();
         val value = this.parseExpression();
 
-        return Expr.VarDef(name, value);
+        return Expr.VarDef(name, type, value);
     }
 
 

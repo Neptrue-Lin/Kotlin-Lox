@@ -13,6 +13,7 @@ import org.neptrueworks.lox.parsing.StatementVisitor
 import org.neptrueworks.lox.parsing.SyntaxLabel
 import org.neptrueworks.lox.parsing.SyntaxStatement
 import org.neptrueworks.lox.parsing.SyntaxYield
+import org.neptrueworks.lox.parsing.TypeAnnotation
 
 public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<String> {
     public final fun print(stmt: SyntaxStatement) : String {
@@ -44,7 +45,17 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
     }
 
     public final override fun visitVarDef(expr: VarDef): String {
-        return "( var ${expr.name.id.id} = ${expr.value.accept(this)} )"
+        val builder = StringBuilder();
+        builder.append("( var ");
+        builder.append(expr.name.id.id);
+        if (expr.type is TypeAnnotation.Annotated) {
+            builder.append(": ");
+            builder.append(expr.type.name.accept(this));
+        } 
+        builder.append(" = ");
+        builder.append(expr.value.accept(this));
+        builder.append(" )");
+        return builder.toString();
     }
 
     public final override fun visitVarAssign(expr: VarAssign): String {
