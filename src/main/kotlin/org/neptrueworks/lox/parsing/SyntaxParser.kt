@@ -139,7 +139,6 @@ public final class SyntaxParser(
             LexicalPattern.LeftCurl -> this.parseBlock()
             LexicalPattern.Break -> this.parseBreakExpr()
             LexicalPattern.Continue -> this.parseContinueExpr()
-            LexicalPattern.FallThrough -> this.parseFallThroughExpr()
             LexicalPattern.Return -> this.parseReturnExpr()
             else -> throw Exception("Unknown else clause")
         }
@@ -282,7 +281,6 @@ public final class SyntaxParser(
             val expr = when (this.getCurrentToken().pattern) {
                 LexicalPattern.Break -> this.parseBreakExpr();
                 LexicalPattern.Continue -> this.parseContinueExpr();
-                LexicalPattern.FallThrough -> this.parseFallThroughExpr();
                 LexicalPattern.Return -> this.parseReturnExpr();
                 else -> this.parseExpression()
             }
@@ -329,14 +327,6 @@ public final class SyntaxParser(
 
         val label = parseJumpToClause()
         return Expr.Continue(label);
-    }
-
-    private fun parseFallThroughExpr(): Expr.FallThrough {
-        if (this.getCurrentToken().isNotFallThrough()) {
-            throw Exception("Missing fallthrough")
-        }
-        this.nextToken();
-        return Expr.FallThrough;
     }
 
     private fun parseReturnExpr(): Expr.Return {

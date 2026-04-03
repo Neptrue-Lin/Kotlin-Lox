@@ -176,19 +176,16 @@ internal inline fun LexicalToken.isNotWhile() = !this.isWhile();
 internal inline fun LexicalToken.isJump() = when (this.pattern) {
     Break       -> true;
     Continue    -> true;
-    FallThrough -> true;
     Return      -> true;
     else -> false;
 }
 internal inline fun LexicalToken.isNotJump() = !this.isJump();
 internal inline fun LexicalToken.isBreak()       = this.pattern == Break;
 internal inline fun LexicalToken.isContinue()    = this.pattern == Continue;
-internal inline fun LexicalToken.isFallThrough() = this.pattern == FallThrough;
 internal inline fun LexicalToken.isReturn()      = this.pattern == Return;
 internal inline fun LexicalToken.isTo()          = this.pattern == To;
 internal inline fun LexicalToken.isNotBreak()       = !this.isBreak();
 internal inline fun LexicalToken.isNotContinue()    = !this.isContinue();
-internal inline fun LexicalToken.isNotFallThrough() = !this.isFallThrough();
 internal inline fun LexicalToken.isNotReturn()      = !this.isReturn();
 internal inline fun LexicalToken.isNotTo()          = !this.isTo();
 

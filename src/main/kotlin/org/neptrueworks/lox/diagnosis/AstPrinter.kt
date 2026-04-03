@@ -178,10 +178,6 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         return builder.toString();
     }
 
-    public final override fun visitFallThrough(expr: FallThrough): String {
-        return "fallthrough";
-    }
-
     public final override fun visitReturn(expr: Return): String {
         val builder = StringBuilder();
         builder.append("return ");

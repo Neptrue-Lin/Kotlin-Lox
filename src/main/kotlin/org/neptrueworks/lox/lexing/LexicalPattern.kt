@@ -91,7 +91,6 @@ public sealed class LexicalPattern private constructor() {
     // Jump
     public data object Break       : LexicalPattern() { const val Lexeme = "break" }
     public data object Continue    : LexicalPattern() { const val Lexeme = "continue" }
-    public data object FallThrough : LexicalPattern() { const val Lexeme = "fallthrough" }
     public data object Return      : LexicalPattern() { const val Lexeme = "return" }
     public data object To          : LexicalPattern() { const val Lexeme = "to" }
     

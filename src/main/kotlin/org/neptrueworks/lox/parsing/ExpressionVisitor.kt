@@ -17,7 +17,6 @@ public interface ExpressionVisitor<R> {
     public fun visitLoop(expr: Loop): R;
     public fun visitBreak(expr: Break): R;
     public fun visitContinue(expr: Continue): R;
-    public fun visitFallThrough(expr: FallThrough): R;
     public fun visitReturn(expr: Return): R;
     public fun visitFuncCall(expr: FuncCall): R; 
 }

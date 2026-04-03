@@ -96,7 +96,6 @@ public final class LexicalAnalyzer(
 
             Break.Lexeme       -> Break;
             Continue.Lexeme    -> Continue;
-            FallThrough.Lexeme -> FallThrough;
             Return.Lexeme      -> Return;
             To.Lexeme          -> To;
 

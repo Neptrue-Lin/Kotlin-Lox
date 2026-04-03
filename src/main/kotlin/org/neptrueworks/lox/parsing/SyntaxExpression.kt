@@ -54,9 +54,6 @@ public sealed class SyntaxExpression private constructor() {
     public data class Return(val yield: SyntaxYield, val to: SyntaxLabel) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitReturn(this);
     }
-    public data object FallThrough : SyntaxExpression() {
-        public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitFallThrough(this);
-    }
     
     public data class FuncCall(val callee: SyntaxExpression, val valueArgs: ArgumentList) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitFuncCall(this);
