@@ -213,4 +213,8 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         builder.append(")")
         return builder.toString();
     }
+
+    public final override fun visitMemberAccess(expr: MemberAccess): String {
+        return "${expr.receiver.pattern.id}.${expr.path.accept(this)}";
+    }
 }
