@@ -167,6 +167,7 @@ public final class SyntaxParser(
             if (this.getCurrentToken().isNotIdentifier()) {
                 throw Exception("Missing type annotation")
             }
+            // TODO Type Member
             val typeName = Expr.Identifier(this.getCurrentToken().pattern as LexicalPattern.Identifier);
             this.nextToken();
             TypeAnnotation.Annotated(typeName);
@@ -212,11 +213,13 @@ public final class SyntaxParser(
 
         val subject = this.parseSubject();
         val cases = mutableListOf<CaseClause>();
-        while (this.getCurrentToken().isNotTerminated()) {
-            if (this.getCurrentToken().isRightCurl()) {
-                break;
+        this.curlBrace {  
+            while (this.getCurrentToken().isNotTerminated()) {
+                if (this.getCurrentToken().isRightCurl()) {
+                    break;
+                }
+                cases += this.parseCaseClause();
             }
-            cases += this.parseCaseClause();
         }
         return Expr.Switch(subject, cases);
     }
