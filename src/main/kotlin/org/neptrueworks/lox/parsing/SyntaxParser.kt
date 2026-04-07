@@ -211,11 +211,6 @@ public final class SyntaxParser(
         this.nextToken();
 
         val subject = this.parseSubject();
-        val then = this.parseSwitchBlock();
-        return Expr.Switch(subject, then);
-    }
-
-    private fun parseSwitchBlock(): Expr.SwitchBlock = this.curlBrace {
         val cases = mutableListOf<CaseClause>();
         while (this.getCurrentToken().isNotTerminated()) {
             if (this.getCurrentToken().isRightCurl()) {
@@ -223,7 +218,7 @@ public final class SyntaxParser(
             }
             cases += this.parseCaseClause();
         }
-        Expr.SwitchBlock(cases);
+        return Expr.Switch(subject, cases);
     }
 
     private fun parseCaseClause(): CaseClause {

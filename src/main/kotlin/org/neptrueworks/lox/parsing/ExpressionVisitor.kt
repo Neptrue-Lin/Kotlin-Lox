@@ -11,7 +11,6 @@ public interface ExpressionVisitor<R> {
     public fun visitVarDef(expr: VarDef): R;
     public fun visitVarAssign(expr: VarAssign): R;
     public fun visitBlock(expr: Block): R;
-    public fun visitSwitchBlock(expr: SwitchBlock): R;
     public fun visitIf(expr: If): R;
     public fun visitSwitch(expr: Switch): R;
     public fun visitLoop(expr: Loop): R;

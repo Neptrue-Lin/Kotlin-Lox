@@ -83,26 +83,6 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         return builder.toString();
     }
 
-    public final override fun visitSwitchBlock(expr: SwitchBlock): String {
-        val builder = StringBuilder();
-        builder.append("{");
-        for (case in expr.cases) {
-            builder.append("\n");
-            when (val pattern = case.pattern) {
-                is DestructuringPattern.Constant -> builder.append("case " + pattern.expr.accept(this))
-                is DestructuringPattern.Else -> builder.append("else")
-            }
-            if (case.guard is GuardClause.Guarded) {
-                builder.append(" if ");
-                builder.append(case.guard.condition.accept(this));
-            }
-            builder.append(" => ");
-            builder.append(case.then.accept(this));
-        }
-        builder.append("\n}");
-        return builder.toString();
-    }
-
     public final override fun visitIf(expr: If): String {
         val builder = StringBuilder();
         builder.append("if (");
@@ -123,8 +103,21 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         val builder = StringBuilder();
         builder.append("switch ");
         builder.append(expr.subject.accept(this));
-        builder.append(" ");
-        builder.append(expr.then.accept(this));
+        builder.append(" {");
+        for (case in expr.cases) {
+            builder.append("\n");
+            when (val pattern = case.pattern) {
+                is DestructuringPattern.Constant -> builder.append("case " + pattern.expr.accept(this))
+                is DestructuringPattern.Else -> builder.append("else")
+            }
+            if (case.guard is GuardClause.Guarded) {
+                builder.append(" if ");
+                builder.append(case.guard.condition.accept(this));
+            }
+            builder.append(" => ");
+            builder.append(case.then.accept(this));
+        }
+        builder.append("\n}");
         return builder.toString();
     }
 

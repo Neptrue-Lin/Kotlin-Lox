@@ -31,9 +31,6 @@ public sealed class SyntaxExpression private constructor() {
     public data class Block(val stmts: List<SyntaxStatement>, val yield: SyntaxYield) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitBlock(this);
     }
-    public data class SwitchBlock(val cases: List<CaseClause>) : SyntaxExpression() {
-        public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitSwitchBlock(this);
-    }
 
     public data class If(val condition: SyntaxExpression, val then: IfThenClause, val `else`: ElseClause) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitIf(this);
@@ -41,7 +38,7 @@ public sealed class SyntaxExpression private constructor() {
     public data class Loop(val label: SyntaxLabel, val clause: LoopClause, val then: Block, val `else`: ElseClause) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitLoop(this);
     }
-    public data class Switch(val subject: SyntaxExpression, val then: SwitchBlock) : SyntaxExpression() {
+    public data class Switch(val subject: SyntaxExpression, val cases: List<CaseClause>) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitSwitch(this);
     }
     
