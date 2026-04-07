@@ -1,6 +1,5 @@
 package org.neptrueworks.lox.parsing
 
-public sealed class ArgumentList private constructor() {
-    public data class Positional(val args: List<SyntaxExpression>) : ArgumentList();
-    public data class Named(val args: Map<SyntaxExpression.Identifier, SyntaxExpression>) : ArgumentList();
-}
+public data class ArgumentList(val args: List<SyntaxExpression>);
+
+public inline val ArgumentList.arity get() = this.args.size;

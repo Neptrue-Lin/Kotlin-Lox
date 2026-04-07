@@ -198,17 +198,9 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
         builder.append("( call ");
         builder.append(expr.callee.accept(this));
         builder.append(" ");
-        when (val args = expr.valueArgs) {
-            is ArgumentList.Positional -> for (arg in args.args) {
-                builder.append(arg.accept(this));
-                builder.append(", ");
-            }
-            is ArgumentList.Named -> for (arg in args.args) {
-                builder.append(arg.key.accept(this));
-                builder.append(" = ")
-                builder.append(arg.value.accept(this));
-                builder.append(", ");
-            }
+        for (arg in expr.valueArgs.args) {
+            builder.append(arg.accept(this));
+            builder.append(", ");
         }
         builder.append(")")
         return builder.toString();
