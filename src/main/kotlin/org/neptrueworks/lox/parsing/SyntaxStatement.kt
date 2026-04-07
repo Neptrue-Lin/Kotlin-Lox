@@ -8,7 +8,7 @@ public sealed class SyntaxStatement private constructor() {
     public data class Expr(val expr: SyntaxExpression) : SyntaxStatement() {
         public final override fun <R> accept(visitor: StatementVisitor<R>) = visitor.visitExpr(this);
     }
-    public data class VarDecl(val name: LexicalPattern.Identifier) : SyntaxStatement() {
+    public data class VarDecl(val name: LexicalPattern.Identifier, val type: TypeAnnotation) : SyntaxStatement() {
         public final override fun <R> accept(visitor: StatementVisitor<R>) = visitor.visitVarDecl(this);
     }
 }
