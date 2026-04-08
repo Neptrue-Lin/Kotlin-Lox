@@ -312,7 +312,7 @@ public final class SyntaxParser(
             SyntaxYield.None
         }
 
-        val label = parseJumpToClause()
+        val label = this.parseJumpToClause();
         return Expr.Break(yield, label);
     }
 
@@ -323,7 +323,7 @@ public final class SyntaxParser(
         }
         this.nextToken();
 
-        val label = parseJumpToClause()
+        val label = this.parseJumpToClause();
         return Expr.Continue(label);
     }
 
@@ -341,12 +341,14 @@ public final class SyntaxParser(
             SyntaxYield.None
         }
 
-        val label = parseJumpToClause();
+        val label = this.parseJumpToClause();
         return Expr.Return(yield, label);
     }
 
     private fun parseJumpToClause(): SyntaxLabel {
-        return if (this.getCurrentToken().isTo()) {
+        return if (this.getCurrentToken().isNotTo()) {
+            SyntaxLabel.Anonymous
+        } else {
             this.nextToken();
 
             if (this.getCurrentToken().isNotIdentifier()) {
@@ -356,8 +358,6 @@ public final class SyntaxParser(
             this.nextToken();
 
             SyntaxLabel.Labeled(id)
-        } else {
-            SyntaxLabel.Anonymous
         }
     }
 
@@ -375,8 +375,6 @@ public final class SyntaxParser(
         is LexicalPattern.Loop -> this.parseLoopExpr()
         is LexicalPattern.LeftCurl -> this.parseBlock();
         is LexicalPattern.Var -> this.parseVarDefExpr();
-        // TODO
-        // is LexicalPattern.Identifier -> this.parseVarAssignExpr();
         else -> this.parseSimpleExpr();
     }
 
