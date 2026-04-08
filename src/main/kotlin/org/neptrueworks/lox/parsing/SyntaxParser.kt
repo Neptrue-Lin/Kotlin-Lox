@@ -94,6 +94,10 @@ public final class SyntaxParser(
     }
 
     private fun parseStatement(): Stmt = when (this.getCurrentToken().pattern) {
+        LexicalPattern.Else -> { this.parseElseClause(); throw Exception("Missing conditional sentence"); }
+        LexicalPattern.While -> { this.parseWhileClause(); throw Exception("Missing loop sentence"); }
+        LexicalPattern.For -> { this.parseForClause(); throw Exception("Missing loop sentence"); }
+        LexicalPattern.Case -> { this.parseCaseClause(); throw Exception("Missing switch sentence"); }
         else -> this.parseExprStmt()
     }
 
@@ -247,7 +251,7 @@ public final class SyntaxParser(
         }
 
         val clause = when (this.getCurrentToken().pattern) {
-            LexicalPattern.For -> throw Exception("Unimplemented")
+            LexicalPattern.For -> this.parseForClause()
             LexicalPattern.While -> this.parseWhileClause()
             LexicalPattern.LeftCurl -> LoopClause.None;
             else -> throw Exception("Unknown loop clause")
@@ -256,6 +260,40 @@ public final class SyntaxParser(
         val then = this.parseBlock();
         val `else` = this.parseElseClause();
         return Expr.Loop(label, clause, then, `else`);
+    }
+
+    private inline fun parseForClause(): LoopClause.For {
+        if (this.getCurrentToken().isNotFor()) {
+            throw Exception("Missing for")
+        }
+        this.nextToken();
+        
+        return this.parenthesize {
+            if (this.getCurrentToken().isNotVar()) {
+                throw Exception("Missing var")
+            }
+            this.nextToken();
+            
+            if (this.getCurrentToken().isNotIdentifier()) {
+                throw Exception("Missing var name")
+            }
+            val subject = this.getCurrentToken().pattern as LexicalPattern.Identifier;
+            this.nextToken();
+
+            if (this.getCurrentToken().isNotIn()) {
+                throw Exception("Missing in")
+            }
+            this.nextToken();
+            
+            // TODO RangeExpr
+            if (this.getCurrentToken().isNotIdentifier()) {
+                throw Exception("Missing range")
+            }
+            val range = Expr.Identifier(this.getCurrentToken().pattern as LexicalPattern.Identifier);
+            this.nextToken();
+            
+            LoopClause.For(subject, range)
+        }
     }
 
     private inline fun parseWhileClause(): LoopClause.While {

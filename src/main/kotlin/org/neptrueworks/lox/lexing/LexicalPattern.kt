@@ -93,6 +93,7 @@ public sealed class LexicalPattern private constructor() {
     public data object Continue    : LexicalPattern() { const val Lexeme = "continue" }
     public data object Return      : LexicalPattern() { const val Lexeme = "return" }
     public data object To          : LexicalPattern() { const val Lexeme = "to" }
+    public data object In          : LexicalPattern() { const val Lexeme = "in" }
     
     // Declaration
     public data object Var   : LexicalPattern() { const val Lexeme = "var" }

@@ -98,6 +98,7 @@ public final class LexicalAnalyzer(
             Continue.Lexeme    -> Continue;
             Return.Lexeme      -> Return;
             To.Lexeme          -> To;
+            In.Lexeme          -> In;
 
             Var.Lexeme         -> Var;
             Func.Lexeme        -> Func;

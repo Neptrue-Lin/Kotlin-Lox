@@ -129,7 +129,13 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
             builder.append(" ");
         } 
         when (expr.clause) {
-            is LoopClause.For -> TODO()
+            is LoopClause.For -> {
+                builder.append("for( var ")
+                builder.append(expr.clause.subject.id.id);
+                builder.append(" in ");
+                builder.append(expr.clause.range.accept(this));
+                builder.append(") ");
+            }
             is LoopClause.While -> {
                 builder.append("while (");
                 builder.append(expr.clause.condition.accept(this));

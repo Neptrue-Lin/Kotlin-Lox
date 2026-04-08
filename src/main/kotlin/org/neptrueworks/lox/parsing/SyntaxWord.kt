@@ -184,10 +184,12 @@ internal inline fun LexicalToken.isBreak()       = this.pattern == Break;
 internal inline fun LexicalToken.isContinue()    = this.pattern == Continue;
 internal inline fun LexicalToken.isReturn()      = this.pattern == Return;
 internal inline fun LexicalToken.isTo()          = this.pattern == To;
+internal inline fun LexicalToken.isIn()          = this.pattern == In;
 internal inline fun LexicalToken.isNotBreak()       = !this.isBreak();
 internal inline fun LexicalToken.isNotContinue()    = !this.isContinue();
 internal inline fun LexicalToken.isNotReturn()      = !this.isReturn();
 internal inline fun LexicalToken.isNotTo()          = !this.isTo();
+internal inline fun LexicalToken.isNotIn()          = !this.isIn();
 
 // Declaration
 internal inline fun LexicalToken.isVar()   = this.pattern is Var;
