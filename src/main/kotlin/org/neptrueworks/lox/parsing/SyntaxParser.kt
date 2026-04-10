@@ -547,13 +547,14 @@ public final class SyntaxParser(
     }
 
     private fun parseUnaryExpr(): Expr {
-        if (this.getCurrentToken().isUnary()) {
-            val operator = this.getCurrentToken();
-            this.nextToken();
-            val expr = this.parseUnaryExpr();
-            return Expr.Unary(operator, expr);
+        if (this.getCurrentToken().isNotUnary()) {
+            return this.parseFuncCallExpr();
         }
-        return this.parseFuncCallExpr();
+        
+        val operator = this.getCurrentToken();
+        this.nextToken();
+        val expr = this.parseUnaryExpr();
+        return Expr.Unary(operator, expr);
     }
 
     private fun parseFuncCallExpr() : Expr {
