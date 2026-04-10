@@ -469,15 +469,23 @@ public final class SyntaxParser(
     private fun parseVarAssignExpr(): Expr {
         val expr = this.parseDisjunctionExpr();
 
-        if (this.getCurrentToken().isAssign()) {
-            val operator = this.getCurrentToken();
-            this.nextToken();
-
-            val value = this.parseExpression();
-            return Expr.VarAssign(expr, operator.pattern, value);
+        if (this.getCurrentToken().isNotAssign()) {
+            return expr;
         }
         
-        return expr;
+        val operator = this.getCurrentToken();
+        this.nextToken();
+
+        val value = this.parseExpression();
+        val op = when (operator.pattern) {
+            LexicalPattern.PlusEqual -> LexicalPattern.Plus
+            LexicalPattern.MinusEqual -> LexicalPattern.Minus
+            LexicalPattern.AsteriskEqual -> LexicalPattern.Asterisk
+            LexicalPattern.SlashEqual -> LexicalPattern.Slash
+            LexicalPattern.PercentEqual -> LexicalPattern.Percent
+            else -> return Expr.VarAssign(expr, value);
+        }
+        return Expr.VarAssign(expr, Expr.Binary(expr, LexicalToken(op, operator.lineNumber), value));
     }
 
     private fun parseDisjunctionExpr(): Expr {

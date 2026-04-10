@@ -24,7 +24,7 @@ public sealed class SyntaxExpression private constructor() {
     public data class VarDef(val name: LexicalPattern.Identifier, val type: TypeAnnotation, val value: SyntaxExpression) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitVarDef(this);
     }
-    public data class VarAssign(val name: SyntaxExpression, val operator: LexicalPattern, val value: SyntaxExpression) : SyntaxExpression() {
+    public data class VarAssign(val name: SyntaxExpression, val value: SyntaxExpression) : SyntaxExpression() {
         public final override fun <R> accept(visitor: ExpressionVisitor<R>) = visitor.visitVarAssign(this);
     }
     

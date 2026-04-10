@@ -67,7 +67,7 @@ public final class AstPrinter : ExpressionVisitor<String>, StatementVisitor<Stri
     }
 
     public final override fun visitVarAssign(expr: VarAssign): String {
-        return "( ${expr.name.accept(this)} ${expr.operator} ${expr.value.accept(this)})";
+        return "( ${expr.name.accept(this)} = ${expr.value.accept(this)})";
     }
 
     public final override fun visitBlock(expr: Block): String {
