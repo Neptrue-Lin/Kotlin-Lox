@@ -94,19 +94,26 @@ public final class SyntaxParser(
     }
 
     private fun parseStatement(): Stmt = when (this.getCurrentToken().pattern) {
-        LexicalPattern.Else -> { this.parseElseClause(); throw Exception("Missing conditional sentence"); }
-        LexicalPattern.While -> { this.parseWhileClause(); throw Exception("Missing loop sentence"); }
-        LexicalPattern.For -> { this.parseForClause(); throw Exception("Missing loop sentence"); }
-        LexicalPattern.Case -> { this.parseCaseClause(); throw Exception("Missing switch sentence"); }
         else -> this.parseExprStmt()
     }
 
 
     private inline fun parseConditionExpr(): Expr = this.parenthesize {
-        if (this.getCurrentToken().isRightParen()) {
-            throw Exception("Missing condition")
+        when (this.getCurrentToken().pattern) {
+            LexicalPattern.RightParen -> throw Exception("Missing condition")
+            LexicalPattern.Var, 
+            LexicalPattern.If, 
+            LexicalPattern.Switch, 
+            LexicalPattern.Loop, 
+            LexicalPattern.LeftCurl -> throw Exception("Condition not simple expression")
+            else -> {}
         }
-        this.parseSimpleExpr();
+        
+        val condition = this.parseSimpleExpr();
+        if (this.getCurrentToken().isNotRightParen()) {
+            throw Exception("Condition not simple expression");
+        }
+        condition
     }
 
     private fun parseIfExpr(): Expr.If {
@@ -408,11 +415,15 @@ public final class SyntaxParser(
     }
 
     private fun parseExpression(): Expr = when (this.getCurrentToken().pattern) {
-        is LexicalPattern.If -> this.parseIfExpr();
-        is LexicalPattern.Switch -> this.parseSwitchExpr();
-        is LexicalPattern.Loop -> this.parseLoopExpr()
-        is LexicalPattern.LeftCurl -> this.parseBlock();
-        is LexicalPattern.Var -> this.parseVarDefExpr();
+        LexicalPattern.Else -> { this.parseElseClause(); throw Exception("Missing conditional sentence"); }
+        LexicalPattern.While -> { this.parseWhileClause(); throw Exception("Missing loop sentence"); }
+        LexicalPattern.For -> { this.parseForClause(); throw Exception("Missing loop sentence"); }
+        LexicalPattern.Case -> { this.parseCaseClause(); throw Exception("Missing switch sentence"); }
+        LexicalPattern.If -> this.parseIfExpr();
+        LexicalPattern.Switch -> this.parseSwitchExpr();
+        LexicalPattern.Loop -> this.parseLoopExpr()
+        LexicalPattern.LeftCurl -> this.parseBlock();
+        LexicalPattern.Var -> this.parseVarDefExpr();
         else -> this.parseSimpleExpr();
     }
 
